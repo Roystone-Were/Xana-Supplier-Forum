@@ -77,7 +77,7 @@ export function registrationEmail(r: RegistrationEmail) {
     <tr><td style="height:6px;background:${BRAND};font-size:0;line-height:0;">&nbsp;</td></tr>
     <tr><td class="pad" style="padding:32px 32px 8px;">
       <div class="logo" style="display:inline-block;border-radius:10px;padding:4px 0;">
-        <img src="${SITE_URL}/img/xana-pharmacy-logo.png" width="120" alt="Xana Pharmacy" style="display:block;width:120px;max-width:100%;height:auto;border:0;">
+        <img src="${SITE_URL}/img/xana-logo.png" width="90" alt="Xana Life" style="display:block;width:90px;max-width:100%;height:auto;border:0;">
       </div>
       <div style="margin-top:24px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:${ACCENT};">${EVENT.name}</div>
       <div class="h1" style="margin-top:6px;font-size:24px;font-weight:700;line-height:1.3;color:${BRAND};">New supplier registration</div>

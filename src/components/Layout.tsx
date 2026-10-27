@@ -3,14 +3,14 @@ import { AnimatePresence, motion } from 'motion/react'
 import { Menu, X } from 'lucide-react'
 import { EVENT } from '../event'
 
-const LOGO_SIZES = { md: 'h-11 sm:h-14', sm: 'h-10' }
+const LOGO_SIZES = { md: 'h-12 sm:h-14', sm: 'h-12' }
 
 export function Logo({ size = 'md', className = '' }: { size?: 'md' | 'sm'; className?: string }) {
   return (
     <div className={`flex items-center gap-4 ${className}`}>
       <img
-        src="/img/xana-pharmacy-logo.png"
-        alt="Xana Pharmacy"
+        src="/img/xana-logo.png"
+        alt="Xana Life — Every Day Better"
         className={`${LOGO_SIZES[size]} w-auto object-contain`}
       />
     </div>
