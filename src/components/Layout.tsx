@@ -10,7 +10,7 @@ export function Logo({ size = 'md', className = '' }: { size?: 'md' | 'sm'; clas
     <div className={`flex items-center gap-4 ${className}`}>
       <img
         src="/img/xana-logo.png"
-        alt="Xana Life — Every Day Better"
+        alt="Xana Life â€” Every Day Better"
         className={`${LOGO_SIZES[size]} w-auto object-contain`}
       />
     </div>
