@@ -1,8 +1,7 @@
 import { neon } from '@neondatabase/serverless'
 import { registrationEmail } from './email.js'
 
-// Testing with Roystone first; switch to patrick@xanalife.com once a test email arrives.
-const NOTIFY = ['roystone@xanalife.com']
+const NOTIFY = ['patrick@xanalife.com']
 
 const clean = (v: unknown, max = 200) => (typeof v === 'string' ? v.trim().slice(0, max) : '')
 
