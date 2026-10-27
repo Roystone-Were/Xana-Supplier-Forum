@@ -1,7 +1,7 @@
 import { defineConfig, loadEnv, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
-import { isValid, saveAndNotify, toRecord } from './server/registration'
+import { isValid, saveAndNotify, toRecord } from './server/registration.js'
 
 // Lets the form work under `npm run dev` against the same database and email as production.
 function localRegisterApi(): Plugin {

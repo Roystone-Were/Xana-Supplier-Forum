@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { isValid, saveAndNotify, toRecord } from '../server/registration'
+import { isValid, saveAndNotify, toRecord } from '../server/registration.js'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
