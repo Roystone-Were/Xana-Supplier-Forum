@@ -2,5 +2,7 @@ node_modules
 dist
 .env*
 .vercel
-registrations.jsonl
 *.tsbuildinfo
+
+.vercel
+.env*
