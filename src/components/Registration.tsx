@@ -11,6 +11,8 @@ export type Registration = {
   phone: string
 }
 
+export type Confirmed = Registration & { duplicate: boolean }
+
 type TextField = 'fullName' | 'company' | 'jobTitle' | 'phone'
 
 const FIELDS = [
@@ -44,7 +46,7 @@ export function RegistrationForm({
   onConfirmed,
 }: {
   onClose: () => void
-  onConfirmed: (r: Registration) => void
+  onConfirmed: (r: Confirmed) => void
 }) {
   const [form, setForm] = useState<Registration>({
     fullName: '',
@@ -73,7 +75,8 @@ export function RegistrationForm({
         body: JSON.stringify(form),
       })
       if (!res.ok) throw new Error('We could not confirm your registration. Please try again.')
-      onConfirmed(form)
+      const { duplicate } = await res.json()
+      onConfirmed({ ...form, duplicate: Boolean(duplicate) })
     } catch (err) {
       setMessage(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
     } finally {
@@ -209,7 +212,7 @@ function downloadCalendar() {
   URL.revokeObjectURL(url)
 }
 
-export function Confirmation({ registration, onClose }: { registration: Registration; onClose: () => void }) {
+export function Confirmation({ registration, onClose }: { registration: Confirmed; onClose: () => void }) {
   const facts = [
     { icon: CalendarDays, label: 'Date', value: EVENT.dateShort },
     { icon: Clock, label: 'Time', value: EVENT.hours },
@@ -229,11 +232,20 @@ export function Confirmation({ registration, onClose }: { registration: Registra
         <Check className="h-10 w-10 stroke-[3] text-white" />
       </div>
       <h2 id="confirmation-title" className="mb-3 text-3xl font-bold text-brand">
-        You're Registered!
+        {registration.duplicate ? "You're Already Registered" : "You're Registered!"}
       </h2>
       <p className="mb-8 max-w-sm text-base text-gray-500">
-        Thank you, {registration.fullName.split(' ')[0]}. Your seat for {registration.company} at the{' '}
-        {EVENT.name} is confirmed. We look forward to seeing you.
+        {registration.duplicate ? (
+          <>
+            This phone number is already registered for the {EVENT.name}, so there is nothing more to do. We
+            look forward to seeing you.
+          </>
+        ) : (
+          <>
+            Thank you, {registration.fullName.split(' ')[0]}. Your seat for {registration.company} at the{' '}
+            {EVENT.name} is confirmed. We look forward to seeing you.
+          </>
+        )}
       </p>
       <div className="mb-8 flex w-full divide-x divide-gray-200 rounded-2xl border border-gray-100 bg-cream p-6 text-left">
         {facts.map(({ icon: Icon, label, value }) => (

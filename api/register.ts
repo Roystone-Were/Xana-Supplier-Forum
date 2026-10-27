@@ -8,10 +8,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!isValid(record)) return res.status(400).json({ error: 'Missing or invalid fields.' })
 
   try {
-    await saveAndNotify(record)
+    const { duplicate } = await saveAndNotify(record)
+    return res.status(duplicate ? 200 : 201).json({ ok: true, duplicate })
   } catch (e) {
     console.error('Could not save registration:', e)
     return res.status(500).json({ error: 'Could not save registration.' })
   }
-  return res.status(201).json({ ok: true })
 }

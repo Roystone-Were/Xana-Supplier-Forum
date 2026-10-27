@@ -17,8 +17,11 @@ export function toRecord(body: any) {
   }
 }
 
+// Last 9 digits, matching the phone_key column in db/schema.sql.
+export const phoneKey = (phone: string) => phone.replace(/\D/g, '').slice(-9)
+
 export function isValid(r: RegistrationRecord) {
-  return Boolean(r.fullName && r.company && r.jobTitle && r.phone)
+  return Boolean(r.fullName && r.company && r.jobTitle && phoneKey(r.phone).length === 9)
 }
 
 // One line per registration, prefixed so it is easy to filter in the Vercel logs.
@@ -49,12 +52,19 @@ async function notify(r: RegistrationRecord) {
 }
 
 // Saving is what confirms the seat; a failed email is logged but never blocks the registration.
-export async function saveAndNotify(r: RegistrationRecord) {
-  console.log(logLine(r))
+// A phone number that is already registered saves nothing and sends no email.
+export async function saveAndNotify(r: RegistrationRecord): Promise<{ duplicate: boolean }> {
   const sql = neon(process.env.DATABASE_URL!)
-  await sql`
-    insert into forum_registrations (full_name, phone, company, job_title)
-    values (${r.fullName}, ${r.phone}, ${r.company}, ${r.jobTitle})
-    `
+  const inserted = await sql`
+    insert into forum_registrations (full_name, phone, company, job_title, phone_key)
+    values (${r.fullName}, ${r.phone}, ${r.company}, ${r.jobTitle}, ${phoneKey(r.phone)})
+    on conflict (phone_key) do nothing
+    returning id`
+  if (inserted.length === 0) {
+    console.log(`DUPLICATE ${JSON.stringify(r)}`)
+    return { duplicate: true }
+  }
+  console.log(logLine(r))
   await notify(r).catch((e) => console.error('Email failed:', e))
+  return { duplicate: false }
 }

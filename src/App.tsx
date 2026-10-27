@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { Footer, Header } from './components/Layout'
 import { Hero } from './components/Sections'
-import { Confirmation, RegistrationForm, type Registration } from './components/Registration'
+import { Confirmation, RegistrationForm, type Confirmed } from './components/Registration'
 
 export default function App() {
   const [formOpen, setFormOpen] = useState(false)
-  const [confirmed, setConfirmed] = useState<Registration | null>(null)
+  const [confirmed, setConfirmed] = useState<Confirmed | null>(null)
   const modalOpen = formOpen || confirmed !== null
   const open = () => setFormOpen(true)
   const close = () => {

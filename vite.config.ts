@@ -24,14 +24,14 @@ function localRegisterApi(): Plugin {
             return res.end(JSON.stringify({ error: 'Missing or invalid fields.' }))
           }
           try {
-            await saveAndNotify(record)
+            const { duplicate } = await saveAndNotify(record)
+            res.statusCode = duplicate ? 200 : 201
+            res.end(JSON.stringify({ ok: true, duplicate }))
           } catch (e) {
             console.error('Could not save registration:', e)
             res.statusCode = 500
-            return res.end(JSON.stringify({ error: 'Could not save registration.' }))
+            res.end(JSON.stringify({ error: 'Could not save registration.' }))
           }
-          res.statusCode = 201
-          res.end(JSON.stringify({ ok: true }))
         })
       })
     },
