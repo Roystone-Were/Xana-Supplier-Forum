@@ -7,15 +7,15 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "db:setup": "node --env-file=.env.local scripts/create-table.mjs"
+    "db:setup": "node --env-file=.env.local scripts/create-table.mjs",
+    "registrations": "node --env-file=.env.local scripts/registrations.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.2.0",
     "lucide-react": "^1.62.0",
     "motion": "^14.6.0",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1",
-    "resend": "^6.34.1"
+    "react-dom": "^19.3.1"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
