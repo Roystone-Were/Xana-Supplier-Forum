@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --color-brand: #005c3a;
+  --color-brand-dark: #004a2e;
+  --color-brand-tint: #e9f3ed;
+  --color-accent: #f58a07;
+  --color-cream: #faf8f6;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+  h1, h2, h3 {
+    font-family: var(--font-display);
+  }
+}
