@@ -1,0 +1,41 @@
+# Emails the registrations report to Patrick at 8:00pm on 3 Nov and 9:00am on 4 Nov (EAT).
+# GitHub's scheduler can start late, so each run is triggered ~30 min early
+# and waits until the exact send time. Run manually from the Actions tab to
+# send a test to another address.
+name: Registrations report
+
+on:
+  schedule:
+    - cron: '30 16 3 11 *' # 7:30pm EAT, 3 Nov -> sends at 8:00pm
+    - cron: '30 5 4 11 *'  # 8:30am EAT, 4 Nov -> sends at 9:00am
+  workflow_dispatch:
+    inputs:
+      to:
+        description: Send to
+        default: roystone@xanalife.com
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Wait for send time
+        if: github.event_name == 'schedule'
+        run: |
+          if [ "$(TZ=Africa/Nairobi date +%H)" -lt 12 ]; then at=09:00; else at=20:00; fi
+          target=$(TZ=Africa/Nairobi date -d "today $at" +%s)
+          wait=$(( target - $(date +%s) ))
+          echo "Sending at $at EAT (waiting ${wait}s)"
+          if [ "$wait" -gt 0 ]; then sleep "$wait"; fi
+      - name: Send report
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          MG_API_KEY: ${{ secrets.MG_API_KEY }}
+          MG_DOMAIN: ${{ secrets.MG_DOMAIN }}
+        run: node scripts/email-report.mjs --to "${{ inputs.to || 'patrick@xanalife.com' }}"

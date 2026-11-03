@@ -9,3 +9,4 @@ dist
 
 .env*
 registrations-*.csv
+report-email.log
