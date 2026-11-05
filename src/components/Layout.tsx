@@ -26,44 +26,52 @@ export function Header({ onRegister }: { onRegister: () => void }) {
         <a href="#top" aria-label={`${EVENT.name} — home`}>
           <Logo />
         </a>
-        <button
-          onClick={onRegister}
-          className="hidden rounded-md bg-brand px-6 py-2.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-brand-dark md:block"
-        >
-          Register Now
-        </button>
-        <button
-          onClick={() => setOpen((o) => !o)}
-          aria-expanded={open}
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          className="text-brand md:hidden"
-        >
-          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
-      </div>
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="overflow-hidden border-t border-gray-100 bg-white md:hidden"
-          >
-            <nav className="flex flex-col gap-1 px-6 py-4">
-              <button
-                onClick={() => {
-                  setOpen(false)
-                  onRegister()
-                }}
-                className="rounded-lg bg-brand px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-dark"
-              >
-                Register Now
-              </button>
-            </nav>
-          </motion.div>
+        {EVENT.registrationOpen ? (
+          <>
+            <button
+              onClick={onRegister}
+              className="hidden rounded-md bg-brand px-6 py-2.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-brand-dark md:block"
+            >
+              Register Now
+            </button>
+            <button
+              onClick={() => setOpen((o) => !o)}
+              aria-expanded={open}
+              aria-label={open ? 'Close menu' : 'Open menu'}
+              className="text-brand md:hidden"
+            >
+              {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </>
+        ) : (
+          <span className="rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-gray-600">Registration closed</span>
         )}
-      </AnimatePresence>
+      </div>
+      {EVENT.registrationOpen && (
+        <AnimatePresence>
+          {open && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="overflow-hidden border-t border-gray-100 bg-white md:hidden"
+            >
+              <nav className="flex flex-col gap-1 px-6 py-4">
+                <button
+                  onClick={() => {
+                    setOpen(false)
+                    onRegister()
+                  }}
+                  className="rounded-lg bg-brand px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-dark"
+                >
+                  Register Now
+                </button>
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      )}
     </header>
   )
 }

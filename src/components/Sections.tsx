@@ -61,16 +61,22 @@ export function Hero({ onRegister }: { onRegister: () => void }) {
           </motion.h1>
           <motion.p {...rise(0.2)} className="mt-2 max-w-xl text-lg leading-relaxed text-gray-600 md:text-xl">
             Xana Pharmacy invites our existing suppliers to a forum on the matters affecting Xana and how we grow
-            together. Please register each representative attending.
+            together.{EVENT.registrationOpen && ' Please register each representative attending.'}
           </motion.p>
           <motion.div {...rise(0.3)} className="mt-6 flex flex-col gap-4 sm:flex-row">
-            <button
-              onClick={onRegister}
-              className="flex items-center justify-center gap-2 rounded-lg bg-brand px-8 py-3.5 text-sm font-semibold text-white shadow-md shadow-brand/20 transition-colors hover:bg-brand-dark"
-            >
-              <span>Register to Attend</span>
-              <ArrowRight className="h-4 w-4" />
-            </button>
+            {EVENT.registrationOpen ? (
+              <button
+                onClick={onRegister}
+                className="flex items-center justify-center gap-2 rounded-lg bg-brand px-8 py-3.5 text-sm font-semibold text-white shadow-md shadow-brand/20 transition-colors hover:bg-brand-dark"
+              >
+                <span>Register to Attend</span>
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            ) : (
+              <p className="rounded-lg border border-gray-200 bg-white px-6 py-3.5 text-sm font-semibold text-gray-700">
+                Registration is now closed. Thank you to everyone who registered.
+              </p>
+            )}
           </motion.div>
           <motion.div
             {...rise(0.4)}

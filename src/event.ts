@@ -1,6 +1,7 @@
 // Every event detail lives here so the copy across the page stays in sync.
 export const EVENT = {
   name: 'Supplier Engagement Forum',
+  registrationOpen: false as boolean,
   summary: 'Supplier Engagement Forum — Xana Pharmacy',
   date: '2026-11-05',
   dateShort: '5th Nov 2026',
